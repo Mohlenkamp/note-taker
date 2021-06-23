@@ -19,10 +19,8 @@ router.get('/notes/:id', (req, res) => {
 
 router.post('/notes', (req, res) => {
   // set id based on uuid random number
-  req.body.id = uuidv4(); 
-  console.log("send to create new note")
-  createNewNote(req.body, notes);
-  res.json(notes);
+  req.body.id = uuidv4();   
+  res.json(createNewNote(req.body, notes));
   // if (!validateNote(req.body)) {
   //   res.status(400).send('The note is not properly formatted.');
   // } else {
