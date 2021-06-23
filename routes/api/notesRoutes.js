@@ -20,29 +20,19 @@ router.get('/notes/:id', (req, res) => {
 router.post('/notes', (req, res) => {
   // set id based on uuid random number
   req.body.id = uuidv4();   
-  res.json(createNewNote(req.body, notes));
-  // if (!validateNote(req.body)) {
-  //   res.status(400).send('The note is not properly formatted.');
-  // } else {
-    // console.log("send to create new note")
-    // createNewNote(req.body, notes);
-    // res.json(notes);
-  // }
+  if (!validateNote(req.body)) {
+    res.status(400).send('The note is not properly formatted.');
+  } else {
+    //console.log("send to create new note")
+    createNewNote(req.body, notes);
+    res.json(notes);
+  }
 });
 
 router.delete('/notes/:id', (req, res) => {
-    // TODO:
+    // Remove a note when the trash can is clicked
   const id = req.params.id
   res.json(removeNote(notes, id))
-    // get note based on id param
-    // req.body.id = findById(req.params.id, notes);
-  
-    // if (!validateNote(req.body)) {
-    //   res.status(400).send('The note is not properly formatted.');
-    // } else {
-    //   const note = createNewNote(req.body, notes);
-    //   res.json(note);
-    // }
   });
 
 module.exports = router;
