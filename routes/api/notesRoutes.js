@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { filterByQuery, findById, createNewNote, validateNote } = require('../../lib/notes');
+const { filterByQuery, findById, createNewNote, removeNote, validateNote } = require('../../lib/notes');
 const { notes } = require('../../db/db.json');
 
 router.get('/notes', (req, res) => {
@@ -15,7 +15,7 @@ router.get('/notes/:id', (req, res) => {
   if (result) {
     res.json(result);
   } else {
-    res.sendStatus(404); // I don't know what else to do here....
+    res.status(400).send('The note was not found.');
   }
 });
 
@@ -33,7 +33,8 @@ router.post('/notes', (req, res) => {
 
 router.delete('/notes/:id', (req, res) => {
     // TODO:
-
+  const id = req.params.id
+  res.json(removeNote(req.body, id))
     // get note based on id param
     // req.body.id = findById(req.params.id, notes);
   
