@@ -1,13 +1,11 @@
 const router = require('express').Router();
 const { filterByQuery, findById, createNewNote, removeNote, validateNote } = require('../../lib/notes');
 const { notes } = require('../../db/db.json');
+const { v4: uuidv4 } = require('uuid');  // unique id generator
 
 router.get('/notes', (req, res) => {
-  let results = notes;
-  if (req.query) {
-    results = filterByQuery(req.query, results);
-  }
-  res.json(results);
+  // just displaying all of the notes, so we don't filter
+    res.json(notes);
 });
 
 router.get('/notes/:id', (req, res) => {
@@ -20,9 +18,9 @@ router.get('/notes/:id', (req, res) => {
 });
 
 router.post('/notes', (req, res) => {
-  // set id based on what the next index of the array will be
-  req.body.id = notes.length.toString();
-
+  // set id based on uuid random number
+  req.body.id = uuidv4(); 
+  
   if (!validateNote(req.body)) {
     res.status(400).send('The note is not properly formatted.');
   } else {
@@ -34,7 +32,7 @@ router.post('/notes', (req, res) => {
 router.delete('/notes/:id', (req, res) => {
     // TODO:
   const id = req.params.id
-  res.json(removeNote(req.body, id))
+  res.json(removeNote(notes, id))
     // get note based on id param
     // req.body.id = findById(req.params.id, notes);
   

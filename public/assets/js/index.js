@@ -68,6 +68,7 @@ const renderActiveNote = () => {
 
 const handleNoteSave = () => {
   const newNote = {
+    id: noteId.value,
     title: noteTitle.value,
     text: noteText.value,
   };
